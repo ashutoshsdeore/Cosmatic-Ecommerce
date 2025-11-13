@@ -9,7 +9,7 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  // now avatars include a display name + online flag
+  // avatars
   const avatars: { src: string; name: string; online?: boolean }[] = [
     { src: "/a1.jpg", name: "Asha", online: true },
     { src: "/a2.jpg", name: "Rita", online: true },
@@ -65,11 +65,11 @@ export default function Hero() {
         show: { opacity: 1, x: 0, transition: { duration: 0.38, ease: "easeOut" } },
       };
 
-  // bobbing float for idle animation on avatars
-  const avatarFloat = shouldReduceMotion
+  // bobbing float for idle animation on avatars (object to spread safely)
+  const avatarFloatProps = shouldReduceMotion
     ? {}
     : {
-        animate: { y: [0, -4, 0], transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" } },
+        animate: { y: [0, -4, 0] as number[], transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" } },
       };
 
   const badgeVariant: Variants = shouldReduceMotion
@@ -84,13 +84,6 @@ export default function Hero() {
     : {
         hidden: { opacity: 0, x: 24 },
         show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: "easeOut", delay: 0.12 } },
-      };
-
-  const playBtnPulse = shouldReduceMotion
-    ? {}
-    : {
-        whileTap: { scale: 0.94 },
-        whileHover: { scale: 1.06 },
       };
 
   return (
@@ -173,7 +166,6 @@ export default function Hero() {
                     style={{ color: "rgb(235,111,76)", border: "1.5px solid rgba(235,111,76,0.18)", background: "rgba(251,231,212,0.06)" }}
                     variants={appear}
                     whileHover={!shouldReduceMotion ? { scale: 1.02 } : undefined}
-                    {...(shouldReduceMotion ? {} : { transition: { type: "spring", stiffness: 260, damping: 20 } })}
                   >
                     <span
                       className="flex items-center justify-center rounded-full"
@@ -197,8 +189,8 @@ export default function Hero() {
                               name={a.name}
                               online={!!a.online}
                               index={i}
-                              reducedMotion={shouldReduceMotion}
-                              floatConfig={avatarFloat}
+                              reducedMotion={!!shouldReduceMotion}
+                              floatProps={avatarFloatProps}
                             />
                           </motion.div>
                         ))}
@@ -321,63 +313,58 @@ export default function Hero() {
   );
 }
 
-/* ProfileAvatar component: avatar with hover/focus animation + online pulse */
+/* ProfileAvatar component: robust & reduced-motion safe */
 function ProfileAvatar({
   src,
   name,
   online,
   index,
-  reducedMotion,
-  floatConfig,
+  reducedMotion = false,
+  floatProps = {},
 }: {
   src: string;
   name: string;
   online?: boolean;
   index: number;
-  reducedMotion: boolean;
-  floatConfig: any;
+  reducedMotion?: boolean;
+  floatProps?: Record<string, unknown>;
 }) {
-  // hover / focus variants
-  const hoverVariant = reducedMotion
-    ? {}
-    : {
-        hover: { scale: 1.12, y: -6, boxShadow: "0 10px 30px rgba(0,0,0,0.12)", transition: { duration: 0.18 } },
-        focus: { scale: 1.12, y: -6, boxShadow: "0 10px 30px rgba(0,0,0,0.12)", transition: { duration: 0.18 } },
-      };
+  // conditional hover/focus animation objects (applied directly, not as variant names)
+  const hoverAnim = reducedMotion
+    ? undefined
+    : { scale: 1.12, y: -6, boxShadow: "0 10px 30px rgba(0,0,0,0.12)", transition: { duration: 0.18 } };
 
   return (
     <motion.div
       className="relative"
       title={name}
-      initial="rest"
-      whileHover="hover"
-      whileFocus="focus"
-      animate="rest"
+      initial={{}}
+      animate={{}}
       style={{ zIndex: 10 - index }}
-      {...(reducedMotion ? {} : { variants: { rest: {}, ...hoverVariant } })}
+      whileHover={hoverAnim}
+      whileFocus={hoverAnim}
     >
       {/* floating animation applied to the wrapper (idle subtle movement) */}
       <motion.div
         className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-100"
         style={{ boxShadow: "0 6px 18px rgba(0,0,0,0.08)" }}
-        {...(reducedMotion ? {} : floatConfig)}
+        {...(reducedMotion ? {} : floatProps)}
       >
         <img src={src} loading="lazy" className="w-full h-full object-cover" alt={name} />
       </motion.div>
 
       {/* online dot */}
       {online && (
-        <span
-          className="absolute right-0 bottom-0 w-3 h-3 rounded-full border-2 border-white"
-          style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.06)" }}
-        >
+        <span className="absolute right-0 bottom-0 w-3 h-3 rounded-full border-2 border-white" style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.06)" }}>
           {/* pulse ring */}
-          <motion.span
-            className="block rounded-full absolute inset-0"
-            initial={{ scale: 1, opacity: 0.9 }}
-            animate={reducedMotion ? {} : { scale: [1, 2.1], opacity: [0.9, 0], transition: { duration: 1.6, repeat: Infinity } }}
-            style={{ background: "rgba(91, 200, 125, 0.15)" }}
-          />
+          {!reducedMotion ? (
+            <motion.span
+              className="block rounded-full absolute inset-0"
+              initial={{ scale: 1, opacity: 0.9 }}
+              animate={{ scale: [1, 2.1], opacity: [0.9, 0], transition: { duration: 1.6, repeat: Infinity } }}
+              style={{ background: "rgba(91, 200, 125, 0.15)" }}
+            />
+          ) : null}
           <span className="block w-full h-full rounded-full" style={{ background: "#5bc87d", display: "block" }} />
         </span>
       )}
@@ -386,7 +373,8 @@ function ProfileAvatar({
       <motion.span
         className="absolute left-1/2 -translate-x-1/2 -bottom-8 pointer-events-none rounded-md px-2 py-1 text-xs text-white bg-black/70"
         initial={{ opacity: 0, y: 6, scale: 0.98 }}
-        variants={reducedMotion ? {} : { hover: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.16 } }, focus: { opacity: 1, y: 0, scale: 1 } }}
+        animate={{}}
+        {...(!reducedMotion ? { whileHover: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.16 } } } : {})}
         aria-hidden
       >
         {name}
