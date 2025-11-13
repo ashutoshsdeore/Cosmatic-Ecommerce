@@ -4,7 +4,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { Check, Sparkles } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
-export default function SeeTheWorldCurvedLearnMore(): JSX.Element {
+export default function SeeTheWorldCurvedLearnMore() {
   const shouldReduceMotion = useReducedMotion();
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
 
@@ -52,7 +52,7 @@ export default function SeeTheWorldCurvedLearnMore(): JSX.Element {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-start">
           {/* LEFT */}
-          <motion.div className="space-y-6 sm:space-y-8" variants={fadeUp}>
+          <motion.div className="space-y-6 sm:space-y-8" variants={fadeUp as any}>
             <h2 id="see-the-world-title" className="text-3xl sm:text-4xl lg:text-5xl font-serif leading-tight text-gray-900">
               SEE THE WORLD
               <br />
@@ -61,7 +61,7 @@ export default function SeeTheWorldCurvedLearnMore(): JSX.Element {
 
             <motion.div
               className="bg-black text-white rounded-3xl p-5 sm:p-6 lg:p-8 shadow-lg max-w-md"
-              variants={fadeUp}
+              variants={fadeUp as any}
               whileHover={shouldReduceMotion ? {} : { y: -6 }}
             >
               <div className="flex items-start gap-4">
@@ -76,7 +76,7 @@ export default function SeeTheWorldCurvedLearnMore(): JSX.Element {
               </div>
             </motion.div>
 
-            <motion.div className="space-y-3 max-w-sm" variants={fadeUp}>
+            <motion.div className="space-y-3 max-w-sm" variants={fadeUp as any}>
               <div className="flex items-center gap-4 bg-white rounded-full px-4 py-2 shadow-sm">
                 <div className="w-3 h-3 bg-gray-300 rounded-full flex-shrink-0" />
                 <span className="text-gray-700 text-sm">Lab Tested Approved Formulas</span>
@@ -97,7 +97,7 @@ export default function SeeTheWorldCurvedLearnMore(): JSX.Element {
                 <motion.div
                   key={img.src}
                   className="bg-white rounded-2xl overflow-hidden shadow-lg h-40 sm:h-52 md:h-56"
-                  variants={imgFloat(i)}
+                  variants={imgFloat(i) as any}
                   initial="hidden"
                   animate="show"
                   whileHover={shouldReduceMotion ? {} : { scale: 1.02, translateY: -6 }}
@@ -112,7 +112,7 @@ export default function SeeTheWorldCurvedLearnMore(): JSX.Element {
             <div className="pt-2 lg:pt-6">
               <motion.div
                 className="relative bg-white rounded-2xl overflow-visible"
-                variants={imgFloat(2)}
+                variants={imgFloat(20)as any}
                 initial="hidden"
                 animate="show"
                 whileHover={shouldReduceMotion ? {} : { y: -10, boxShadow: "0 20px 60px rgba(11,11,11,0.12)" }}

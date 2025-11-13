@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { motion, useReducedMotion } from "framer-motion";
 
-export default function Hero(): JSX.Element {
+export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -106,7 +106,7 @@ export default function Hero(): JSX.Element {
         >
           <div className="grid lg:grid-cols-2 items-start gap-10 lg:gap-16 relative">
             {/* LEFT */}
-            <motion.div className="relative pt-4 z-10" variants={fadeUp}>
+            <motion.div className="relative pt-4 z-10" variants={fadeUp as any}>
               <div className="max-w-xl">
                 <h1
                   className="font-serif font-extrabold leading-tight"
@@ -128,7 +128,7 @@ export default function Hero(): JSX.Element {
                   Concentrated in each drop of our award-winning range, our formula helps skin slow down signs of aging and find its healthy-looking state for good.
                 </p>
 
-                <motion.div className="mt-8 flex flex-col sm:flex-row sm:items-start sm:gap-8" variants={fadeUp}>
+                <motion.div className="mt-8 flex flex-col sm:flex-row sm:items-start sm:gap-8" variants={fadeUp as any}>
                   <motion.a
                     href="#shop"
                     className="inline-flex items-center gap-3 rounded-full px-5 py-2.5 font-medium text-sm transition shadow-sm"
@@ -144,7 +144,7 @@ export default function Hero(): JSX.Element {
                     SHOP NOW
                   </motion.a>
 
-                  <motion.div className="flex flex-col mt-4 sm:mt-0" variants={fadeUp}>
+                  <motion.div className="flex flex-col mt-4 sm:mt-0" variants={fadeUp as any} >
                     <div className="flex items-center gap-4">
                       <motion.div className="flex -space-x-3" initial={{}} animate={{}}>
                         {avatars.map((src, i) => (
@@ -160,7 +160,7 @@ export default function Hero(): JSX.Element {
                         ))}
                       </motion.div>
 
-                      <motion.div className="flex items-center gap-3" variants={fadeUp}>
+                      <motion.div className="flex items-center gap-3" variants={fadeUp as any}>
                         <div className="flex items-center gap-1">
                           {[1, 2, 3, 4, 5].map((n) => (
                             <svg key={n} width="16" height="16" viewBox="0 0 24 24" fill="rgb(235,111,76)">
@@ -182,7 +182,7 @@ export default function Hero(): JSX.Element {
             <div className="relative w-full h-[380px] md:h-[460px] lg:h-[560px]">
               <motion.div
                 className="absolute left-[-6px] lg:left-[8%] top-[18%] md:top-[22%] z-30"
-                variants={floatIn(0.08)}
+                variants={floatIn(0.08) as any}
               >
                 <BadgeC size={140} />
               </motion.div>
@@ -191,7 +191,7 @@ export default function Hero(): JSX.Element {
               <motion.div
                 className="absolute z-40 right-0 md:right-[-4rem] lg:right-[-8rem] bottom-[-7.5rem] sm:bottom-[rem]"
                 style={{ width: "min(92vw, 650px)", maxWidth: 650 }}
-                variants={floatIn(0.14)}
+                variants={floatIn(0.14) as any}
                 initial={shouldReduceMotion ? undefined : "hidden"}
                 animate={shouldReduceMotion ? undefined : "show"}
               >

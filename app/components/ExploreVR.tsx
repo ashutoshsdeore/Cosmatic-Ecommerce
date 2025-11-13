@@ -248,7 +248,7 @@ export default function ExploreVRCentered() {
                   return (
                     <motion.div
                       key={i}
-                      variants={cardVariants}
+                     variants={cardVariants as any}
                       whileHover={!reduceMotion ? "hover" : undefined}
                       onClick={() => setActive(i)}
                       style={{

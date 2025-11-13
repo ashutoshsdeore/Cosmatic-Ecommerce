@@ -40,7 +40,7 @@ export default function Footer() {
           className="grid gap-8 items-start mb-12 grid-cols-1 md:grid-cols-12"
         >
           {/* Left - Brand + Socials */}
-          <motion.div variants={itemV} className="md:col-span-3 flex flex-col items-start gap-4">
+          <motion.div variants={itemV as any} className="md:col-span-3 flex flex-col items-start gap-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-[#FB8C5A] rounded-full flex items-center justify-center text-white font-bold">
                 B
@@ -85,7 +85,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Right - Subscribe box */}
-          <motion.div variants={itemV} className="md:col-span-9">
+          <motion.div variants={itemV as any} className="md:col-span-9">
             <div className="bg-[#FB6F3F] rounded-lg p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="text-white max-w-xl">
                 <h3 className="text-2xl font-semibold">Let’s Get In Touch!</h3>
@@ -128,7 +128,7 @@ export default function Footer() {
           variants={containerV}
           className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pb-8 border-t border-gray-200 pt-10"
         >
-          <motion.div variants={itemV}>
+          <motion.div variants={itemV as any}>
             <h4 className="font-medium mb-4">ABOUT COMPANY</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
@@ -154,7 +154,7 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div variants={itemV}>
+          <motion.div variants={itemV as any}>
             <h4 className="font-medium mb-4">HELP INFORMATION</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
@@ -180,7 +180,7 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div variants={itemV}>
+          <motion.div variants={itemV as any}>
             <h4 className="font-medium mb-4">TERMS OF SERVICE</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
@@ -201,7 +201,7 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div variants={itemV}>
+          <motion.div variants={itemV as any}>
             <h4 className="font-medium mb-4">ACCOUNT INFORMATION</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>

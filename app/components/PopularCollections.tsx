@@ -89,7 +89,7 @@ export default function PopularCollections() {
               role="article"
               tabIndex={0}
               aria-label={`${p.name} - ${p.category} - $${p.price.toFixed(2)}`}
-              variants={cardVariants}
+              variants={cardVariants as any}
               whileHover={reduceMotion ? undefined : "hover"}
               whileTap={reduceMotion ? undefined : "tap"}
               className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden focus:outline-none focus:ring-4 focus:ring-pink-50"
@@ -97,7 +97,7 @@ export default function PopularCollections() {
               <div className="p-5 sm:p-6 flex flex-col items-center text-center gap-4">
                 <motion.div
                   className="w-28 h-28 sm:w-32 sm:h-32 rounded-xl bg-gray-50 overflow-hidden flex items-center justify-center"
-                  variants={imgHover}
+                  variants={imgHover as any}
                 >
                   <Image
                     src={p.image}

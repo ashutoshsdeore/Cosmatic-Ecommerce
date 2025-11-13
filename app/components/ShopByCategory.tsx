@@ -42,7 +42,7 @@ export default function ShopByCategory() {
         >
           {/* LEFT */}
           <motion.div
-            variants={card}
+            variants={card as any}
             whileHover="hover"
             className="
               col-span-1 sm:col-span-1 
@@ -54,7 +54,7 @@ export default function ShopByCategory() {
             <motion.img
               src={categories[0].image}
               alt={categories[0].name}
-              variants={imageHover}
+              variants={imageHover as any}
               className="w-full h-[320px] sm:h-[360px] lg:h-[420px] object-cover transition-transform duration-500"
             />
             {/* ORIGINAL NAME BOX — UNTOUCHED */}
@@ -65,7 +65,7 @@ export default function ShopByCategory() {
 
           {/* MIDDLE TOP */}
           <motion.div
-            variants={card}
+            variants={card as any}
             whileHover="hover"
             className="
               rounded-2xl overflow-hidden relative shadow-md hover:shadow-xl 
@@ -75,7 +75,7 @@ export default function ShopByCategory() {
             <motion.img
               src={categories[1].image}
               alt={categories[1].name}
-              variants={imageHover}
+              variants={imageHover as any}
               className="w-full h-[180px] sm:h-[200px] lg:h-[200px] object-cover transition-transform duration-500"
             />
             {/* UNTOUCHED NAME BOX */}
@@ -86,7 +86,7 @@ export default function ShopByCategory() {
 
           {/* RIGHT */}
           <motion.div
-            variants={card}
+            variants={card as any}
             whileHover="hover"
             className="
               col-span-1 sm:col-span-1
@@ -98,7 +98,7 @@ export default function ShopByCategory() {
             <motion.img
               src={categories[3].image}
               alt={categories[3].name}
-              variants={imageHover}
+              variants={imageHover as any}
               className="w-full h-[320px] sm:h-[360px] lg:h-[420px] object-cover transition-transform duration-500"
             />
             {/* UNTOUCHED NAME BOX */}
@@ -109,7 +109,7 @@ export default function ShopByCategory() {
 
           {/* MIDDLE BOTTOM */}
           <motion.div
-            variants={card}
+            variants={card as any}
             whileHover="hover"
             className="
               rounded-2xl overflow-hidden relative shadow-md hover:shadow-xl
@@ -119,7 +119,7 @@ export default function ShopByCategory() {
             <motion.img
               src={categories[2].image}
               alt={categories[2].name}
-              variants={imageHover}
+              variants={imageHover as any}
               className="w-full h-[180px] sm:h-[200px] lg:h-[200px] object-cover transition-transform duration-500"
             />
             {/* UNTOUCHED NAME BOX */}

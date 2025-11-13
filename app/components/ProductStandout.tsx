@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -116,7 +116,13 @@ export default function ProductStandout() {
   const onPointerUp = () => {
     const el = containerRef.current;
     if (!el) return;
-    if (!dragState.current.pointerDown) return;
+    if (!dragState.current.pointerDown) {
+      // If pointer wasn't down, just ensure state resets
+      setIsDragging(false);
+      setIsPaused(false);
+      (document.body as any).style.userSelect = "";
+      return;
+    }
     dragState.current.pointerDown = false;
 
     const velocityPxPerFrame = dragState.current.velocity * 16;
@@ -143,7 +149,7 @@ export default function ProductStandout() {
   // mouse handlers
   const onMouseDown = (e: React.MouseEvent) => onPointerDown(e.clientX);
   const onMouseMove = (e: React.MouseEvent) => onPointerMove(e.clientX);
-  const onMouseUp = () => onPointerUp();
+  const onMouseUp = (_e?: React.MouseEvent) => onPointerUp();
 
   // touch handlers
   const onTouchStart = (e: React.TouchEvent) => {
@@ -279,6 +285,16 @@ export default function ProductStandout() {
     hover: { scale: 1.035, y: -6, transition: { type: "spring", stiffness: 420, damping: 22 } },
   };
 
+  // unified mouse leave handler (no duplicate props)
+  const handleMouseLeave = () => {
+    // If user is in the middle of dragging, finalize the drag.
+    if (isDragging) {
+      onPointerUp();
+    } else {
+      setIsPaused(false);
+    }
+  };
+
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-[#FFF1F0] to-[#FFF7F8] overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -298,23 +314,19 @@ export default function ProductStandout() {
       <div className="w-full overflow-hidden">
         <div className="relative px-4">
           <motion.div
-            ref={containerRef}
+            // NOTE: cast ref to any to avoid framer-motion ref type friction
+            ref={containerRef as any}
             role="list"
             initial="hidden"
-            whileInView={!isReducedMotion ? "show" : "show"} // reduced motion still shows but uses simple transforms
+            whileInView={!isReducedMotion ? "show" : "show"}
             viewport={{ once: true, amount: 0.16 }}
             variants={containerVariants}
             onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => {
-              if (!isDragging) setIsPaused(false);
-            }}
+            onMouseLeave={handleMouseLeave}
             onWheel={onWheel}
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
-            onMouseLeave={() => {
-              if (isDragging) onMouseUp();
-            }}
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
@@ -326,7 +338,7 @@ export default function ProductStandout() {
                 key={idx}
                 role="listitem"
                 tabIndex={0}
-                variants={itemVariants}
+                variants={itemVariants as any}
                 whileHover={!isReducedMotion ? "hover" : undefined}
                 className="snap-center flex-shrink-0 w-[86vw] sm:w-[44vw] md:w-[360px] lg:w-[380px] rounded-3xl overflow-hidden relative group focus:outline-none"
                 style={{ minWidth: 280 }}
@@ -339,7 +351,6 @@ export default function ProductStandout() {
                 {/* card container */}
                 <div
                   className="relative h-[280px] sm:h-[320px] md:h-[360px] lg:h-[380px] rounded-3xl overflow-hidden transform transition-transform duration-300 group-hover:scale-105 origin-center bg-white"
-                  // subtle parallax transform on hover (non-essential - respects reduced motion)
                   style={
                     !isReducedMotion
                       ? {
@@ -361,12 +372,11 @@ export default function ProductStandout() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/12 via-transparent to-transparent pointer-events-none" />
                   </div>
 
-                  {/* top-left subtle accent (keeps your name/subtitle markup exactly intact) */}
+                  {/* top-left subtle accent */}
                   <div className="absolute left-6 bottom-6 z-20">
                     <div className="flex items-start gap-3">
                       <div className="w-3 h-3 bg-pink-500 rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="text-left">
-                        {/* UNCHANGED: subtitle & title styling preserved */}
                         <p className="text-sm text-white opacity-0 group-hover:opacity-90 transition-opacity duration-300">
                           {it.subtitle}
                         </p>
